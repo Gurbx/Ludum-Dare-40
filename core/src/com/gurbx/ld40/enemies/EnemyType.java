@@ -1,7 +1,7 @@
 package com.gurbx.ld40.enemies;
 
 public enum EnemyType {
-	STANDARD(10, 1, 100, "enemy");
+	STANDARD(10, 1, 100, "bug");
 	
 	private int health;
 	private int damage;

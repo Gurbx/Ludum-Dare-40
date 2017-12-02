@@ -2,15 +2,24 @@ package com.gurbx.ld40.utils.porjectiles;
 
 import java.util.LinkedList;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.gurbx.ld40.enemies.Enemy;
+import com.gurbx.ld40.utils.Constants;
 import com.gurbx.ld40.utils.GameObject;
+import com.gurbx.ld40.utils.particles.ParticleEffectHandler;
+import com.gurbx.ld40.utils.particles.ParticleEffectType;
+
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 
 public class Projectile implements GameObject {
-	private float x, y;
+	private Vector2 position;
 	private float width, height;
 	private float radians;
 	private float dx, dy;
@@ -21,18 +30,23 @@ public class Projectile implements GameObject {
 	private Sprite sprite;
 	private int damage;
 	
+	PointLight light;
 	
-	public Projectile(float x, float y, float targetX, float targetY, TextureRegion texture, float speed, int damage) {
+	
+	public Projectile(float x, float y, float targetX, float targetY, TextureRegion texture, float speed, int damage, RayHandler rayHandler) {
 		sprite = new Sprite(texture);
 		this.width = texture.getRegionWidth();
 		this.height = texture.getRegionHeight();
-		this.x = x;
-		this.y = y;
+		this.position = new Vector2(x,y);
 		this.speed = speed;
 		shouldRemove = false;
 		sprite.setPosition(x-width*0.5f, y-height-0.5f);
 		this.damage = damage;
 		lifeTime = 500f/speed;
+		
+		light = new PointLight(rayHandler, 20, new Color(1 , 0.2f, 0.2f, 1f), 20, 0, 0);
+		light.setStaticLight(true);
+		light.setPosition(position);
 		
 		radians = (float) Math.atan2(targetY - y, targetX - x);
 		dx = MathUtils.cos(radians) * speed;
@@ -47,11 +61,12 @@ public class Projectile implements GameObject {
 			lifeTimeExpired();
 		}
 		
-		x += dx * delta;
-		y += dy * delta;
+		position.x += dx * delta;
+		position.y += dy * delta;
+		light.setPosition(position);
 		
 		sprite.setRotation((float) Math.toDegrees(radians));
-		sprite.setPosition(x-width*0.5f, y-height-0.5f);
+		sprite.setPosition(position.x-width*0.5f, position.y-height-0.5f);
 		
 	}
 
@@ -60,8 +75,8 @@ public class Projectile implements GameObject {
 	}
 	
 	public boolean hitsTarget(float targetX, float targetY, float targetRangeX, float targetRangeY) {
-		if (targetX - targetRangeX*0.5f < x && x < targetX + targetRangeX*0.5f &&
-				targetY - targetRangeY*0.5 < y && y < targetY + targetRangeY*0.5f) {
+		if (targetX - targetRangeX*0.5f < position.x && position.x < targetX + targetRangeX*0.5f &&
+				targetY - targetRangeY*0.5 < position.y && position.y < targetY + targetRangeY*0.5f) {
 			return true;
 		}
 		return false;
@@ -69,6 +84,7 @@ public class Projectile implements GameObject {
 	
 	public void hit() {
 		shouldRemove = true;
+		ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
 	}
 
 	@Override
@@ -79,7 +95,9 @@ public class Projectile implements GameObject {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
+		if (light != null) {
+			light.remove();
+		}
 		
 	}
 	

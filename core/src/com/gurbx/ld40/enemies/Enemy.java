@@ -1,5 +1,6 @@
 package com.gurbx.ld40.enemies;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,6 +11,8 @@ import com.gurbx.ld40.Application;
 import com.gurbx.ld40.player.Player;
 import com.gurbx.ld40.utils.GameObject;
 import com.gurbx.ld40.utils.ScreenShaker;
+import com.gurbx.ld40.utils.particles.ParticleEffectHandler;
+import com.gurbx.ld40.utils.particles.ParticleEffectType;
 
 public class Enemy implements GameObject {
 	private Vector2 position;
@@ -17,11 +20,13 @@ public class Enemy implements GameObject {
 	private EnemyType type;
 	private Sprite sprite;
 	private boolean shouldRemove;
+	private float elapsedTime;
 	
 	private int health;
 	private float speed;
 	private float dx, dy;
 	private float radians;
+	private Animation animation;
 	
 	private Player player;
 	
@@ -36,13 +41,26 @@ public class Enemy implements GameObject {
 		this.health = type.getHealth();
 		this.player = player;
 		this.speed = type.getSpeed();
+		initAnimation(atlas, type);
+		elapsedTime = 0;
+	}
+	
+	private void initAnimation(TextureAtlas atlas, EnemyType type) {
+		   TextureRegion[] moveFrames = new TextureRegion[4];
+	       for (int i = 0; i < moveFrames.length; i++) {
+	    	   moveFrames[i] = atlas.findRegion(type.getPath() + (i+1));
+	        }
+		   this.width = moveFrames[0].getRegionWidth();
+		   this.height =moveFrames[0].getRegionHeight();
+	       animation = new Animation(1/12f, moveFrames);  
 	}
 
 	@Override
 	public void update(float delta) {
+		elapsedTime += delta;
 		handleMovement(delta);
-		sprite.setPosition(position.x - width*0.5f, position.y - height*0.5f);
-		sprite.setRotation((float) Math.toDegrees(radians));
+//		sprite.setPosition(position.x - width*0.5f, position.y - height*0.5f);
+//		sprite.setRotation((float) Math.toDegrees(radians));
 		
 	}
 
@@ -63,7 +81,8 @@ public class Enemy implements GameObject {
 
 	@Override
 	public void render(SpriteBatch batch) {
-		sprite.draw(batch);
+//		sprite.draw(batch);
+		batch.draw(animation.getKeyFrame(elapsedTime, true), position.x - width*0.5f, position.y-height*0.5f, width/2, height/2, width, height, 1f, 1f, (float) Math.toDegrees(radians));
 	}
 
 	@Override
@@ -81,6 +100,7 @@ public class Enemy implements GameObject {
 		if (health <= 0) {
 			shouldRemove = true;
 			Application.shakeScreen(10, 10, true);
+			ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD_GROUND, position.x, position.y);
 		} else {
 			Application.shakeScreen(4, 3, false);
 		}

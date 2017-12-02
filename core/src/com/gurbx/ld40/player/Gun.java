@@ -6,6 +6,8 @@ import com.gurbx.ld40.Application;
 import com.gurbx.ld40.inventory.InventoryObserver;
 import com.gurbx.ld40.utils.porjectiles.Projectile;
 
+import box2dLight.RayHandler;
+
 public class Gun implements InventoryObserver {
 	private PlayerProjectileHandler projectileHandler;
 	private float standardCooldown;
@@ -19,6 +21,7 @@ public class Gun implements InventoryObserver {
 	
 	private Vector2 playerPosition;
 	private TextureRegion bulletTexture;
+	private RayHandler rayHandler;
 	
 	private boolean canShoot;
 	
@@ -49,7 +52,7 @@ public class Gun implements InventoryObserver {
 	public void shoot(float targetX, float targetY) {
 		if (canShoot) {
 			timer = cooldown;
-			projectileHandler.addProjectile(new Projectile(playerPosition.x, playerPosition.y, targetX, targetY, bulletTexture, speed, damage));
+			projectileHandler.addProjectile(new Projectile(playerPosition.x, playerPosition.y, targetX, targetY, bulletTexture, speed, damage, rayHandler));
 			canShoot = false;
 			Application.shakeScreen(4, 2, false);
 		}
@@ -70,5 +73,11 @@ public class Gun implements InventoryObserver {
 			damage = standardDamage;
 			speed = standardSpeed;
 		}
+	}
+
+
+	public void setRayHandler(RayHandler rayHandler2) {
+		this.rayHandler = rayHandler2;
+		
 	}
 }

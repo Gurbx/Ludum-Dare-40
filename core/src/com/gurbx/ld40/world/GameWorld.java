@@ -9,20 +9,25 @@ import com.gurbx.ld40.inventory.Inventory;
 import com.gurbx.ld40.player.Player;
 import com.gurbx.ld40.utils.GameObject;
 
+import box2dLight.RayHandler;
+
 public class GameWorld implements GameObject {
 	private final int WIDTH = 2000;
 	private final int HEIGHT = 2000;
 	
 	private TextureAtlas atlas;
+	private Tiles tiles;
 	
 	private CrystalHandler crystalHandler;
 	private Storage storage;
 	private EnemyHandler enemies;
 	private EnemySpawner enemySpawner;
+	private RayHandler rayHandler;
 	
-	public GameWorld(TextureAtlas atlas, Inventory inventory, Player player, EnemyHandler enemies) {
+	public GameWorld(TextureAtlas atlas, Inventory inventory, Player player, EnemyHandler enemies, RayHandler rayHandler) {
 		this.atlas = atlas;
-		crystalHandler = new CrystalHandler(atlas, player);
+		this.rayHandler = rayHandler;
+		crystalHandler = new CrystalHandler(atlas, player, rayHandler);
 		inventory.addObserver(crystalHandler);
 		storage = new Storage(50, 50, atlas, player, inventory, this);
 		this.enemies = enemies;
@@ -30,6 +35,7 @@ public class GameWorld implements GameObject {
 		enemySpawner = new EnemySpawner(enemies, this, player);
 		inventory.addObserver(enemySpawner);
 		
+		tiles = new Tiles(atlas, this);
 		
 //		enemies.addEnemy(EnemyType.STANDARD, new Vector2(100, 400));
 //		enemies.addEnemy(EnemyType.STANDARD, new Vector2(200, 300));
@@ -40,6 +46,7 @@ public class GameWorld implements GameObject {
 
 	@Override
 	public void update(float delta) {
+		tiles.update(delta);
 		crystalHandler.update(delta);
 		storage.update(delta);
 		enemySpawner.update(delta);
@@ -48,6 +55,7 @@ public class GameWorld implements GameObject {
 
 	@Override
 	public void render(SpriteBatch batch) {
+		tiles.render(batch);
 		storage.render(batch);
 		crystalHandler.render(batch);
 		enemySpawner.render(batch);
@@ -58,6 +66,7 @@ public class GameWorld implements GameObject {
 	public void dispose() {
 		crystalHandler.dispose();
 		storage.dispose();
+		tiles.dispose();
 		enemySpawner.dispose();
 	}
 

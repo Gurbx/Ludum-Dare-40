@@ -3,37 +3,107 @@ generalPack.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-storage
+particleBlur
   rotate: false
-  xy: 1, 63
+  xy: 1, 60
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
   index: -1
+storage
+  rotate: false
+  xy: 67, 60
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+particleShadow
+  rotate: false
+  xy: 1, 11
+  size: 47, 47
+  orig: 47, 47
+  offset: 0, 0
+  index: -1
+bug
+  rotate: false
+  xy: 133, 92
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+bug1
+  rotate: false
+  xy: 50, 26
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+bug2
+  rotate: false
+  xy: 167, 92
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+bug3
+  rotate: false
+  xy: 84, 26
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+bug4
+  rotate: false
+  xy: 201, 92
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 enemy
   rotate: false
-  xy: 1, 29
+  xy: 133, 58
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 player
   rotate: false
-  xy: 67, 95
+  xy: 167, 58
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+splatterParticle
+  rotate: false
+  xy: 201, 58
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile
+  rotate: false
+  xy: 118, 24
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+particle99
+  rotate: false
+  xy: 152, 31
+  size: 26, 25
+  orig: 26, 25
+  offset: 0, 0
+  index: -1
 arrow
   rotate: false
-  xy: 1, 11
+  xy: 180, 40
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
 crystal
   rotate: false
-  xy: 35, 45
+  xy: 235, 108
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

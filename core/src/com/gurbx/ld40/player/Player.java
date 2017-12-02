@@ -16,6 +16,8 @@ import com.gurbx.ld40.utils.porjectiles.Projectile;
 import com.gurbx.ld40.world.Crystal;
 import com.gurbx.ld40.world.CrystalHandler;
 
+import box2dLight.RayHandler;
+
 public class Player implements GameObject {
 	private Vector2 position;
 	private Sprite sprite;
@@ -33,6 +35,7 @@ public class Player implements GameObject {
 	private boolean shootingRight;
 //	private TextureRegion bulletTexture;
 	private Gun gun;
+	private RayHandler rayHandler;
 	
 	public Player(Vector2 position, TextureAtlas atlas, Inventory inventory, EnemyHandler enemies) {
 		playerState = new PlayerStateHandler();
@@ -147,4 +150,11 @@ public class Player implements GameObject {
 		mouseY = mousePosInGameWorld.y;
 		
 	}
+
+	public void setRayHandler(RayHandler rayHandler2) {
+		this.rayHandler = rayHandler2;
+		gun.setRayHandler(rayHandler2);
+		
+	}
+
 }

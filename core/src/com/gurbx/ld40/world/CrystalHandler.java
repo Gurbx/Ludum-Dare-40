@@ -9,30 +9,34 @@ import com.gurbx.ld40.inventory.InventoryObserver;
 import com.gurbx.ld40.player.Player;
 import com.gurbx.ld40.utils.GameObject;
 
+import box2dLight.RayHandler;
+
 public class CrystalHandler implements GameObject, InventoryObserver {
 	private LinkedList<Crystal> crystals;
 	private TextureAtlas atlas;
 	private TextureRegion crystalTexture;
 	private Player player;
+	private RayHandler rayHandler;
 	
-	public CrystalHandler(TextureAtlas atlas, Player player) {
+	public CrystalHandler(TextureAtlas atlas, Player player, RayHandler rayHandler) {
+		this.rayHandler = rayHandler;
 		this.atlas = atlas;
 		this.player = player;
 		crystalTexture = atlas.findRegion("crystal");
 		crystals = new LinkedList<Crystal>();
 		
-		crystals.add(new Crystal(100, 100, crystalTexture));
-		crystals.add(new Crystal(400, 400, crystalTexture));
-		crystals.add(new Crystal(600, 200, crystalTexture));
-		crystals.add(new Crystal(-100, 400, crystalTexture));
-		crystals.add(new Crystal(200, 100, crystalTexture));
-		crystals.add(new Crystal(200, 400, crystalTexture));
-		crystals.add(new Crystal(-300, 200, crystalTexture));
-		crystals.add(new Crystal(-100, 100, crystalTexture));
+		crystals.add(new Crystal(100, 100, crystalTexture, rayHandler));
+		crystals.add(new Crystal(400, 400, crystalTexture, rayHandler));
+		crystals.add(new Crystal(600, 200, crystalTexture, rayHandler));
+		crystals.add(new Crystal(-100, 400, crystalTexture, rayHandler));
+		crystals.add(new Crystal(200, 100, crystalTexture, rayHandler));
+		crystals.add(new Crystal(200, 400, crystalTexture, rayHandler));
+		crystals.add(new Crystal(-300, 200, crystalTexture, rayHandler));
+		crystals.add(new Crystal(-100, 100, crystalTexture, rayHandler));
 	}
 	
 	public void addCrystal(float x, float y) {
-		crystals.add(new Crystal(x, y, crystalTexture));
+		crystals.add(new Crystal(x, y, crystalTexture, rayHandler));
 	}
 
 	@Override

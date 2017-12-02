@@ -21,6 +21,7 @@ import com.gurbx.ld40.utils.ScreenShaker;
 
 public class Application extends Game {
 	public final static boolean SOUND_ON = true;
+	public final static boolean SHADOWS = true;
 	public AssetManager assets;
 	public SpriteBatch batch;
 	public Viewport viewport, uiViewport;

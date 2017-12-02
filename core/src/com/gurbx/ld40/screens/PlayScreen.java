@@ -15,6 +15,7 @@ import com.gurbx.ld40.utils.Constants;
 import com.gurbx.ld40.utils.GameScreen;
 import com.gurbx.ld40.utils.Input;
 import com.gurbx.ld40.utils.LightHandler;
+import com.gurbx.ld40.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld40.world.GameWorld;
 
 public class PlayScreen extends GameScreen {
@@ -23,6 +24,7 @@ public class PlayScreen extends GameScreen {
 	private Player player;
 	private EnemyHandler enemies;
 	private GameWorld world;
+	private ParticleEffectHandler particleHandler;
 	private Inventory inventory;
 	private UI ui;
 	private World box2dWorld;
@@ -35,15 +37,18 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void show() {
 		generalAtlas = app.assets.get("img/generalPack.atlas", TextureAtlas.class);
+		particleHandler = new ParticleEffectHandler(generalAtlas);
 		inventory = new Inventory();
 		enemies = new EnemyHandler(generalAtlas);
-		player = new Player(new Vector2(100,100), generalAtlas, inventory, enemies);
-		enemies.setPlayer(player);
-		world = new GameWorld(generalAtlas, inventory, player, enemies);
-		player.setCrystalHandler(world.getCrystalHandler());
-		ui = new UI(app, inventory, world, generalAtlas, player);
+		player = new Player(new Vector2(500,500), generalAtlas, inventory, enemies);
 		box2dWorld = new World(new Vector2(), false);
 		lights = new LightHandler(box2dWorld, player);
+		enemies.setPlayer(player);
+		world = new GameWorld(generalAtlas, inventory, player, enemies, lights.getRayHandler());
+		player.setCrystalHandler(world.getCrystalHandler());
+		ui = new UI(app, inventory, world, generalAtlas, player);
+		inventory.addObserver(lights);
+
 		
 		input = new Input(player, app);
 		Gdx.input.setInputProcessor(input);
@@ -71,13 +76,17 @@ public class PlayScreen extends GameScreen {
 		app.batch.setProjectionMatrix(app.camera.combined);
 		app.batch.begin();
 		world.render(app.batch);
+		particleHandler.renderBehind(app.batch, delta);
 		enemies.render(app.batch);
 		player.render(app.batch);
+		particleHandler.render(app.batch, delta);
 		ui.renderWithGameCamera(app.batch);
 		app.batch.end();
 		
-		lights.getRayHandler().setCombinedMatrix(app.camera.combined.scl(Constants.PPM));
-		lights.render(app.batch);
+		if (app.SHADOWS) {
+			lights.getRayHandler().setCombinedMatrix(app.camera.combined.scl(Constants.PPM));
+			lights.render(app.batch);
+		}
 		
 		app.batch.setProjectionMatrix(app.uiCamera.combined);
 		app.batch.begin();
@@ -125,6 +134,8 @@ public class PlayScreen extends GameScreen {
 		player.dispose();
 		ui.dispose();
 		enemies.dispose();
+		box2dWorld.dispose();
+		particleHandler.dispose();
 		
 	}
 
