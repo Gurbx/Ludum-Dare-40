@@ -24,7 +24,7 @@ public class Storage implements GameObject {
 	private final int MIN_TELEPORT_DISTANCE = 200;
 	private Random random;
 	
-	public Storage(float x, float y, TextureAtlas atlas, Player player, Inventory inventory, World world) {
+	public Storage(float x, float y, TextureAtlas atlas, Player player, Inventory inventory, GameWorld world) {
 		this.player = player;
 		this.worldHeight = world.getHeight();
 		this.worldWidth = world.getWidth();
@@ -38,7 +38,7 @@ public class Storage implements GameObject {
 
 	@Override
 	public void update(float delta) {
-		if (Gdx.input.isKeyJustPressed(Keys.SPACE) && inRange(player.getPosition()) && inventory.canDropCrystal()) {
+		if (Gdx.input.isKeyJustPressed(Keys.Q) && inRange(player.getPosition()) && inventory.canDropCrystal()) {
 			inventory.transferToStorage();
 			moveStorage();
 		}

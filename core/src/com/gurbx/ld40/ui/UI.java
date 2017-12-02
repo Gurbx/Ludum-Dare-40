@@ -8,17 +8,17 @@ import com.gurbx.ld40.player.Player;
 import com.gurbx.ld40.utils.Constants;
 import com.gurbx.ld40.utils.GameObject;
 import com.gurbx.ld40.world.Storage;
-import com.gurbx.ld40.world.World;
+import com.gurbx.ld40.world.GameWorld;
 
 public class UI implements GameObject {
 	private Application app;
 	private Inventory inventory;
-	private World world;
+	private GameWorld world;
 	private Storage storage;
 	private StoragePointer storagePointer;
 	private Player player;
 	
-	public UI(Application app, Inventory inventory, World world, TextureAtlas atlas, Player player) {
+	public UI(Application app, Inventory inventory, GameWorld world, TextureAtlas atlas, Player player) {
 		this.player = player;
 		this.app = app;
 		this.inventory = inventory;

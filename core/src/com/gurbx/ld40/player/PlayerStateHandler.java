@@ -18,13 +18,13 @@ public class PlayerStateHandler implements InventoryObserver {
 
 	@Override
 	public void inventoryStatus(int playerCrystals, int storageCrystals) {
-		if (playerCrystals > 0) {
-			speed = MAX_SPEED * (1-(speedDecreasePerCrystal * playerCrystals));
-			if (speed < MIN_SPEED) speed = MIN_SPEED;
-		} else {
-			speed = MAX_SPEED;
-		}
-		System.out.println(speed);
+//		if (playerCrystals > 0) {
+//			speed = MAX_SPEED * (1-(speedDecreasePerCrystal * playerCrystals));
+//			if (speed < MIN_SPEED) speed = MIN_SPEED;
+//		} else {
+//			speed = MAX_SPEED;
+//		}
+//		System.out.println(speed);
 		
 	}
 

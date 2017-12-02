@@ -24,6 +24,8 @@ public class Input implements InputProcessor {
 		player.setRotation((float) Math.toDegrees(playerRadians));
 		distanceBetweenPlayerAndMouse = (float) Math.sqrt((player.getPosition().x-getMousePosInGameWorld().x)*(player.getPosition().x-getMousePosInGameWorld().x)
 				+ (player.getPosition().y-getMousePosInGameWorld().y)*(player.getPosition().y-getMousePosInGameWorld().y));
+		
+		player.setMousePosition(getMousePosInGameWorld());
 	}
 
 	@Override
@@ -45,13 +47,23 @@ public class Input implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
+		if (button == 0 && !player.isShootingRight()) {
+			player.setShootingLeft(true);
+		}
+		if (button == 1 && !player.isShootingLeft()) {
+			player.setShootingRight(true);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
+		if (button == 0) {
+			player.setShootingLeft(false);
+		}
+		if (button == 1) {
+			player.setShootingRight(false);
+		}
 		return false;
 	}
 

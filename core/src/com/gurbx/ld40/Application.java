@@ -17,14 +17,16 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.gurbx.ld40.screens.LoadingScreen;
 import com.gurbx.ld40.screens.PlayScreen;
 import com.gurbx.ld40.utils.Constants;
+import com.gurbx.ld40.utils.ScreenShaker;
 
 public class Application extends Game {
 	public final static boolean SOUND_ON = true;
 	public AssetManager assets;
 	public SpriteBatch batch;
 	public Viewport viewport, uiViewport;
-	public OrthographicCamera camera, uiCamera;
+	public static OrthographicCamera camera, uiCamera;
 	public ShapeRenderer shapeRenderer;
+	public static ScreenShaker screenShake;
 	
 	public BitmapFont font1, font2, font3;
 	
@@ -54,6 +56,8 @@ public class Application extends Game {
 		uiCamera.update();
 		shapeRenderer = new ShapeRenderer();
 		
+		screenShake = new ScreenShaker();
+		
 //		font1 = new BitmapFont();
 	}
 	
@@ -79,9 +83,19 @@ public class Application extends Game {
 	
 	@Override
 	public void render () {
+		update(Gdx.graphics.getDeltaTime());
 		super.render();
 	}
 	
+	private void update(float delta) {
+//		soundHandler.update(delta);
+		screenShake.update(camera);
+	}
+	
+	public static void shakeScreen(int nShakes, float f, boolean priority) {
+		screenShake.shakeScreen(nShakes, camera.position, f, priority);
+	}
+
 	@Override
 	public void resize(int width, int height) {
 		super.resize(width, height);
