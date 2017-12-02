@@ -40,7 +40,7 @@ public class PlayScreen extends GameScreen {
 		particleHandler = new ParticleEffectHandler(generalAtlas);
 		inventory = new Inventory();
 		enemies = new EnemyHandler(generalAtlas);
-		player = new Player(new Vector2(500,500), generalAtlas, inventory, enemies);
+		player = new Player(new Vector2(1600,1600), generalAtlas, inventory, enemies);
 		box2dWorld = new World(new Vector2(), false);
 		lights = new LightHandler(box2dWorld, player);
 		enemies.setPlayer(player);
@@ -48,6 +48,8 @@ public class PlayScreen extends GameScreen {
 		player.setCrystalHandler(world.getCrystalHandler());
 		ui = new UI(app, inventory, world, generalAtlas, player);
 		inventory.addObserver(lights);
+		app.camera.position.x = 1600;
+		app.camera.position.y = 1600;
 
 		
 		input = new Input(player, app);
@@ -88,6 +90,9 @@ public class PlayScreen extends GameScreen {
 			lights.getRayHandler().setCombinedMatrix(app.camera.combined.scl(Constants.PPM));
 			lights.render(app.batch);
 		}
+		
+		app.shapeRenderer.setProjectionMatrix(app.uiCamera.combined);
+		ui.renderBars();
 		
 		app.batch.setProjectionMatrix(app.uiCamera.combined);
 		app.batch.begin();

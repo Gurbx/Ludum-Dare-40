@@ -28,6 +28,8 @@ public class Enemy implements GameObject {
 	private float radians;
 	private Animation animation;
 	
+	private float attackTimer;
+	
 	private Player player;
 	
 	public Enemy(Vector2 position, EnemyType type, TextureAtlas atlas, Player player) {
@@ -35,6 +37,7 @@ public class Enemy implements GameObject {
 		this.width = tex.getRegionWidth();
 		this.height = tex.getRegionHeight();
 		sprite = new Sprite(tex);
+		this.type = type;
 		this.position = position;
 		sprite.setPosition(position.x - width*0.5f, position.y - height*0.5f);
 		shouldRemove = false;
@@ -76,7 +79,25 @@ public class Enemy implements GameObject {
 		position.y += dy * delta;
 		
 		
+		//Handle attack
+		attackTimer-=delta;
+		if (attackTimer <= 0) {
+			//Check if close enough to attack
+			if (overlaps(player.getPosition().x, player.getPosition().y, width + 10)) {
+				attackTimer = type.getAttackCooldown();
+//				SoundHandler.playSound(Sounds.ATTACK);
+				player.damage(type.getDamage());
+			}
+		}
 
+	}
+	
+	public boolean overlaps(float x, float y, float range) {
+		if (x < position.x + width && x + range > position.x &&
+				y < position.y + height && y + range > position.y) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -100,9 +121,10 @@ public class Enemy implements GameObject {
 		if (health <= 0) {
 			shouldRemove = true;
 			Application.shakeScreen(10, 10, true);
+			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
 			ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD_GROUND, position.x, position.y);
 		} else {
-			Application.shakeScreen(4, 3, false);
+			Application.shakeScreen(5, 4, false);
 		}
 		
 		System.out.println(health);

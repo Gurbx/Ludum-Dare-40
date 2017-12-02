@@ -89,7 +89,7 @@ public class Projectile implements GameObject {
 	
 	public void hit() {
 		shouldRemove = true;
-		ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
+		ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT_SMALL, position.x, position.y);
 	}
 
 	@Override

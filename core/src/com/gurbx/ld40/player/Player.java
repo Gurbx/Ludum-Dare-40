@@ -10,10 +10,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.gurbx.ld40.Application;
 import com.gurbx.ld40.enemies.EnemyHandler;
 import com.gurbx.ld40.inventory.Inventory;
 import com.gurbx.ld40.utils.GameObject;
 import com.gurbx.ld40.utils.Input;
+import com.gurbx.ld40.utils.ScreenShaker;
+import com.gurbx.ld40.utils.particles.ParticleEffectHandler;
+import com.gurbx.ld40.utils.particles.ParticleEffectType;
 import com.gurbx.ld40.utils.porjectiles.Projectile;
 import com.gurbx.ld40.world.Crystal;
 import com.gurbx.ld40.world.CrystalHandler;
@@ -23,7 +27,10 @@ import box2dLight.RayHandler;
 public class Player implements GameObject {
 	private float speed;
 	private int MAX_SPEED = 200;
+	private int health;
+	private final int MAX_HP = 20;
 	
+	private boolean dead;
 	private Vector2 baseDirection;
 	private Vector2 velocity;
 	
@@ -68,6 +75,8 @@ public class Player implements GameObject {
 		
 		baseDirection = new Vector2();
 		velocity = new Vector2();
+		health = MAX_HP;
+		dead = false;
 	}
 	
 	public void setCrystalHandler(CrystalHandler handler) {
@@ -236,8 +245,28 @@ public class Player implements GameObject {
 	}
 
 	public void setInput(Input input2) {
-		this.input = input2;
-		
+		this.input = input2;	
+	}
+	
+	public int getHealth() {
+		return health;
 	}
 
+	public int getMaxHealth() {
+		return MAX_HP;
+	}
+	
+	public boolean isDead() {
+		return dead;
+	}
+	
+	public void damage(int damage) {
+		this.health -= damage;
+		ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
+		Application.shakeScreen(6, 6, true);
+		if (health <= 0) {
+			health = 0;
+			dead = true;
+		}
+	}
 }

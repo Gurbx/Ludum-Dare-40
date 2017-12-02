@@ -5,6 +5,7 @@ public enum ParticleEffectType {
 	CRYSTAL_PICKUP("img/crystalPickup.p", 20, false),
 	BLOOD_GROUND("img/bloodGround.p", 50, true),
 	HIT("img/hit.p", 40, false),
+	HIT_SMALL("img/smallHit.p", 40, false),
 	SHOOT("img/shoot.p", 10, false);
 	
 	
