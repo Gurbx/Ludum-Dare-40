@@ -6,16 +6,20 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.gurbx.ld40.Application;
+import com.gurbx.ld40.inventory.Inventory;
 import com.gurbx.ld40.player.Player;
-import com.gurbx.ld40.utils.Constants;
+import com.gurbx.ld40.ui.UI;
 import com.gurbx.ld40.utils.GameScreen;
 import com.gurbx.ld40.utils.Input;
+import com.gurbx.ld40.world.World;
 
 public class PlayScreen extends GameScreen {
 	private TextureAtlas generalAtlas;
 	private Input input;
 	private Player player;
-//	private World world;
+	private World world;
+	private Inventory inventory;
+	private UI ui;
 
 	public PlayScreen(Application app) {
 		super(app);
@@ -24,8 +28,11 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void show() {
 		generalAtlas = app.assets.get("img/generalPack.atlas", TextureAtlas.class);
-		player = new Player(new Vector2(100,100), generalAtlas);
-		
+		inventory = new Inventory();
+		player = new Player(new Vector2(100,100), generalAtlas, inventory);
+		world = new World(generalAtlas, inventory, player);
+		player.setCrystalHandler(world.getCrystalHandler());
+		ui = new UI(app, inventory, world, generalAtlas, player);
 		
 		input = new Input(player, app);
 		Gdx.input.setInputProcessor(input);
@@ -33,7 +40,9 @@ public class PlayScreen extends GameScreen {
 	
 	private void update(float delta) {
 		input.update(delta);
+		world.update(delta);
 		player.update(delta);
+		ui.update(delta);
 		handleCamera(delta);
 		
 	}
@@ -45,15 +54,16 @@ public class PlayScreen extends GameScreen {
 		Gdx.gl.glClearColor(0.5f, 0.6f, 0.65f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		app.batch.setProjectionMatrix(app.uiCamera.combined);
-		app.batch.begin();
-//		ui.renderBG(app.batch);
-		app.batch.end();
-		
-		
 		app.batch.setProjectionMatrix(app.camera.combined);
 		app.batch.begin();
+		world.render(app.batch);
 		player.render(app.batch);
+		ui.renderWithGameCamera(app.batch);
+		app.batch.end();
+		
+		app.batch.setProjectionMatrix(app.uiCamera.combined);
+		app.batch.begin();
+		ui.render(app.batch);
 		app.batch.end();
 	}
 	
@@ -93,8 +103,9 @@ public class PlayScreen extends GameScreen {
 	@Override
 	public void dispose() {
 		generalAtlas.dispose();
-//		world.dispose();
+		world.dispose();
 		player.dispose();
+		ui.dispose();
 		
 	}
 

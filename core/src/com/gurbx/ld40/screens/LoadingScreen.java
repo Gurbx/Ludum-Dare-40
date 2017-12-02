@@ -42,7 +42,7 @@ public class LoadingScreen extends GameScreen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		app.batch.setProjectionMatrix(app.uiCamera.combined);
 		app.batch.begin();
-//		app.font2.draw(app.batch, "Loading...", 5, 15);
+		app.font2.draw(app.batch, "Loading...", 5, 15);
 		app.batch.end();
 		
 	}

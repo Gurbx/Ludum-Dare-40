@@ -3,10 +3,14 @@ package com.gurbx.ld40;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -21,6 +25,9 @@ public class Application extends Game {
 	public Viewport viewport, uiViewport;
 	public OrthographicCamera camera, uiCamera;
 	public ShapeRenderer shapeRenderer;
+	
+	public BitmapFont font1, font2, font3;
+	
 	//Screens
 	public LoadingScreen loadingScreen;
 	public PlayScreen playScreen;
@@ -28,7 +35,7 @@ public class Application extends Game {
 	@Override
 	public void create () {
 		initGeneral();
-//		initFonts();
+		initFonts();
 		initScreens();
 	}
 	
@@ -48,6 +55,20 @@ public class Application extends Game {
 		shapeRenderer = new ShapeRenderer();
 		
 //		font1 = new BitmapFont();
+	}
+	
+	private void initFonts() {
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/notomono-regular.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 14;
+		parameter.borderWidth = 1f;
+		parameter.borderColor = Color.DARK_GRAY;
+		font1 = generator.generateFont(parameter); 
+		parameter.size = 11;
+		font2 = generator.generateFont(parameter);
+		parameter.size = 7;
+		font3 = generator.generateFont(parameter);
+		generator.dispose(); 
 	}
 	
 	private void initScreens() {
@@ -78,5 +99,8 @@ public class Application extends Game {
 		loadingScreen.dispose();
 		playScreen.dispose();
 		shapeRenderer.dispose();
+		font1.dispose();
+		font2.dispose();
+		font3.dispose();
 	}
 }
