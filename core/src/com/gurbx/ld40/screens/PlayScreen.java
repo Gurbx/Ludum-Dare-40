@@ -44,13 +44,14 @@ public class PlayScreen extends GameScreen {
 		box2dWorld = new World(new Vector2(), false);
 		lights = new LightHandler(box2dWorld, player);
 		enemies.setPlayer(player);
-		world = new GameWorld(generalAtlas, inventory, player, enemies, lights.getRayHandler());
+		world = new GameWorld(generalAtlas, inventory, player, enemies, lights.getRayHandler(), lights);
 		player.setCrystalHandler(world.getCrystalHandler());
 		ui = new UI(app, inventory, world, generalAtlas, player);
 		inventory.addObserver(lights);
 
 		
 		input = new Input(player, app);
+		player.setInput(input);
 		Gdx.input.setInputProcessor(input);
 	}
 	

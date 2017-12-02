@@ -8,12 +8,13 @@ import com.gurbx.ld40.enemies.EnemyType;
 import com.gurbx.ld40.inventory.Inventory;
 import com.gurbx.ld40.player.Player;
 import com.gurbx.ld40.utils.GameObject;
+import com.gurbx.ld40.utils.LightHandler;
 
 import box2dLight.RayHandler;
 
 public class GameWorld implements GameObject {
-	private final int WIDTH = 2000;
-	private final int HEIGHT = 2000;
+	private final int WIDTH = 3200;
+	private final int HEIGHT = 3200;
 	
 	private TextureAtlas atlas;
 	private Tiles tiles;
@@ -23,13 +24,17 @@ public class GameWorld implements GameObject {
 	private EnemyHandler enemies;
 	private EnemySpawner enemySpawner;
 	private RayHandler rayHandler;
+	private LightHandler lights;
+	private Player player;
 	
-	public GameWorld(TextureAtlas atlas, Inventory inventory, Player player, EnemyHandler enemies, RayHandler rayHandler) {
+	public GameWorld(TextureAtlas atlas, Inventory inventory, Player player, EnemyHandler enemies, RayHandler rayHandler, LightHandler lights) {
 		this.atlas = atlas;
+		this.lights = lights;
+		this.player = player;
 		this.rayHandler = rayHandler;
-		crystalHandler = new CrystalHandler(atlas, player, rayHandler);
+		crystalHandler = new CrystalHandler(atlas, player, rayHandler, this);
 		inventory.addObserver(crystalHandler);
-		storage = new Storage(50, 50, atlas, player, inventory, this);
+		storage = new Storage(50, 50, atlas, player, inventory, this, rayHandler);
 		this.enemies = enemies;
 		
 		enemySpawner = new EnemySpawner(enemies, this, player);
@@ -50,6 +55,16 @@ public class GameWorld implements GameObject {
 		crystalHandler.update(delta);
 		storage.update(delta);
 		enemySpawner.update(delta);
+		handleBoundaries(delta);
+	}
+
+	private void handleBoundaries(float delta) {
+		if (player.getPosition().x <= 0 || player.getPosition().y >= WIDTH ||
+				player.getPosition().y <= 0 || player.getPosition().y >= HEIGHT) {
+			lights.isOutOfBoundaries(true);
+		} else {
+			lights.isOutOfBoundaries(false);
+		}
 		
 	}
 

@@ -21,7 +21,7 @@ public class Input implements InputProcessor {
 	
 	public void update(float delta) {
 		playerRadians = (float) Math.atan2(getMousePosInGameWorld().y - player.getPosition().y, getMousePosInGameWorld().x - player.getPosition().x);
-		player.setRotation((float) Math.toDegrees(playerRadians));
+		player.setTowerRotation((float) Math.toDegrees(playerRadians));
 		distanceBetweenPlayerAndMouse = (float) Math.sqrt((player.getPosition().x-getMousePosInGameWorld().x)*(player.getPosition().x-getMousePosInGameWorld().x)
 				+ (player.getPosition().y-getMousePosInGameWorld().y)*(player.getPosition().y-getMousePosInGameWorld().y));
 		
@@ -83,6 +83,24 @@ public class Input implements InputProcessor {
 	public boolean scrolled(int amount) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	public void refrensShootingProperties(float spread) {
+		float dx;
+		float dy;
+		if (spread != 0) {
+			float newRadians = (float) (playerRadians + Math.toRadians(-0.5f*spread + Math.random()*spread));
+			dx = MathUtils.cos(newRadians) * 30;
+			dy = MathUtils.sin(newRadians) * 30;
+		} else {
+			dx = MathUtils.cos(playerRadians) * 35;
+			dy = MathUtils.sin(playerRadians) * 35;
+		}
+		
+		//Invert the dirction if distance is less than 25 so player doesn't shoot backwards
+		boolean invert = (distanceBetweenPlayerAndMouse < 35);
+		
+		player.setShootingInformation(getMousePosInGameWorld().x, getMousePosInGameWorld().y, dx, dy, invert);
 	}
 	
 	private Vector3 getMousePosInGameWorld() {

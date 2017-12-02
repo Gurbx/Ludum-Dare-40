@@ -10,9 +10,23 @@ particleBlur
   orig: 64, 64
   offset: 0, 0
   index: -1
-storage
+player
   rotate: false
   xy: 67, 60
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+storage
+  rotate: false
+  xy: 133, 60
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+turret
+  rotate: false
+  xy: 199, 60
   size: 64, 64
   orig: 64, 64
   offset: 0, 0
@@ -26,7 +40,7 @@ particleShadow
   index: -1
 bug
   rotate: false
-  xy: 133, 92
+  xy: 265, 92
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -40,7 +54,7 @@ bug1
   index: -1
 bug2
   rotate: false
-  xy: 167, 92
+  xy: 299, 92
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -54,56 +68,63 @@ bug3
   index: -1
 bug4
   rotate: false
-  xy: 201, 92
+  xy: 333, 92
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 enemy
   rotate: false
-  xy: 133, 58
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-player
-  rotate: false
-  xy: 167, 58
+  xy: 118, 26
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 splatterParticle
   rotate: false
-  xy: 201, 58
+  xy: 367, 92
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 tile
   rotate: false
-  xy: 118, 24
+  xy: 152, 26
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+tile2
+  rotate: false
+  xy: 401, 92
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 particle99
   rotate: false
-  xy: 152, 31
+  xy: 265, 65
   size: 26, 25
   orig: 26, 25
   offset: 0, 0
   index: -1
+hearth
+  rotate: false
+  xy: 186, 36
+  size: 28, 22
+  orig: 28, 22
+  offset: 0, 0
+  index: -1
 arrow
   rotate: false
-  xy: 180, 40
+  xy: 435, 108
   size: 32, 16
   orig: 32, 16
   offset: 0, 0
   index: -1
 crystal
   rotate: false
-  xy: 235, 108
+  xy: 293, 74
   size: 16, 16
   orig: 16, 16
   offset: 0, 0

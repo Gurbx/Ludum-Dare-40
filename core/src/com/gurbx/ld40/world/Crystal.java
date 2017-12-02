@@ -16,7 +16,7 @@ import box2dLight.RayHandler;
 public class Crystal implements GameObject {
 	private float x, y;
 	private Sprite sprite;
-	private final float RANGE = 42;
+	private final float RANGE = 100;
 	private boolean shouldRemove;
 	private ParticleEffect effect;
 	private PointLight light;

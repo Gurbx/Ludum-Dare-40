@@ -12,8 +12,8 @@ import com.gurbx.ld40.player.Player;
 import com.gurbx.ld40.utils.GameObject;
 
 public class EnemySpawner implements GameObject, InventoryObserver {
-	private final int BASE_SPAWN_TIME = 4;
-	private final float MIN_SPAWN_TIME = 0.5f;
+	private final int BASE_SPAWN_TIME = 3;
+	private final float MIN_SPAWN_TIME = 0.1f;
 	private final int SPAWN_RANGE = 520;
 	private float timer;
 	private float spawnTime;

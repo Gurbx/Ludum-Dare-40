@@ -33,7 +33,7 @@ public class Projectile implements GameObject {
 	PointLight light;
 	
 	
-	public Projectile(float x, float y, float targetX, float targetY, TextureRegion texture, float speed, int damage, RayHandler rayHandler) {
+	public Projectile(float x, float y, float targetX, float targetY, TextureRegion texture, float speed, int damage, RayHandler rayHandler, boolean shootInvert) {
 		sprite = new Sprite(texture);
 		this.width = texture.getRegionWidth();
 		this.height = texture.getRegionHeight();
@@ -42,15 +42,20 @@ public class Projectile implements GameObject {
 		shouldRemove = false;
 		sprite.setPosition(x-width*0.5f, y-height-0.5f);
 		this.damage = damage;
-		lifeTime = 500f/speed;
+		lifeTime = 500f/speed + 1;
 		
-		light = new PointLight(rayHandler, 20, new Color(1 , 0.2f, 0.2f, 1f), 20, 0, 0);
+		light = new PointLight(rayHandler, 20, new Color(1 , 0.2f, 0.2f, 1f), 30, 0, 0);
 		light.setStaticLight(true);
 		light.setPosition(position);
 		
 		radians = (float) Math.atan2(targetY - y, targetX - x);
 		dx = MathUtils.cos(radians) * speed;
 		dy = MathUtils.sin(radians) * speed;
+		
+		if (shootInvert) {
+			dx = -dx;
+			dy = -dy;
+		}
 		
 	}
 	

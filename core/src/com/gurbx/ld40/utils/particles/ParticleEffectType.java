@@ -4,7 +4,8 @@ public enum ParticleEffectType {
 	CRYSTAL("img/crystalEffect.p", 20, true),
 	CRYSTAL_PICKUP("img/crystalPickup.p", 20, false),
 	BLOOD_GROUND("img/bloodGround.p", 50, true),
-	HIT("img/hit.p", 40, false);
+	HIT("img/hit.p", 40, false),
+	SHOOT("img/shoot.p", 10, false);
 	
 	
 	private String path;
