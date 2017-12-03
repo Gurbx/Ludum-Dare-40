@@ -34,7 +34,7 @@ public class EnemySpawner implements GameObject, InventoryObserver {
 	@Override
 	public void inventoryStatus(int playerCrystals, int storageCrystals) {
 		if (playerCrystals >= 1) {
-			spawnTime = (float) (BASE_SPAWN_TIME - 0.2*playerCrystals);
+			spawnTime = (float) (BASE_SPAWN_TIME - 0.5*playerCrystals);
 			if (spawnTime <= MIN_SPAWN_TIME) spawnTime = MIN_SPAWN_TIME;
 		} else {
 			spawnTime = BASE_SPAWN_TIME;

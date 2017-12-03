@@ -15,6 +15,8 @@ import com.gurbx.ld40.utils.Constants;
 import com.gurbx.ld40.utils.GameObject;
 import com.gurbx.ld40.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld40.utils.particles.ParticleEffectType;
+import com.gurbx.ld40.utils.sound.SoundHandler;
+import com.gurbx.ld40.utils.sound.Sounds;
 
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
@@ -32,6 +34,8 @@ public class Storage implements GameObject {
 	private Random random;
 	private PointLight light;
 	
+	private StorageSwirl swirl;
+	
 	public Storage(float x, float y, TextureAtlas atlas, Player player, Inventory inventory, GameWorld world, RayHandler rayHandler) {
 		this.player = player;
 		this.worldHeight = world.getHeight();
@@ -42,18 +46,23 @@ public class Storage implements GameObject {
 		
 		this.x = random.nextInt(worldWidth);
 		this.y = random.nextInt(worldHeight);
-		sprite.setPosition(this.x-32, this.y-32);
+		sprite.setPosition(this.x-64, this.y-64);
 		
 		light = new PointLight(rayHandler, 20, new Color(0.5f , 0.8f, 1f, 1f), 200/Constants.PPM, 0/Constants.PPM, 0/Constants.PPM);
 		light.setPosition(new Vector2(this.x, this.y));
 		light.setStaticLight(true);
+		
+		swirl = new StorageSwirl(this.x, this.y, atlas);
 				
 	}
 
 	@Override
 	public void update(float delta) {
+		swirl.update(delta);
 		if (Gdx.input.isKeyJustPressed(Keys.E) && inRange(player.getPosition()) && inventory.canDropCrystal()) {
 			inventory.transferToStorage();
+			SoundHandler.playSound(Sounds.PICKUP2);
+			SoundHandler.playSound(Sounds.PICKUP3);
 			moveStorage();
 		}
 	}
@@ -62,9 +71,10 @@ public class Storage implements GameObject {
 		ParticleEffectHandler.addParticleEffect(ParticleEffectType.CRYSTAL_PICKUP, x, y);
 		x = random.nextInt(worldWidth);
 		y = random.nextInt(worldHeight);
-		sprite.setPosition(x-32, y-32);
+		sprite.setPosition(x-64, y-64);
 		ParticleEffectHandler.addParticleEffect(ParticleEffectType.CRYSTAL_PICKUP, x, y);
 		light.setPosition(new Vector2(x,y));
+		swirl.setPosition(x, y);
 	}
 
 	public boolean inRange(Vector2 position) {
@@ -78,6 +88,7 @@ public class Storage implements GameObject {
 	@Override
 	public void render(SpriteBatch batch) {
 		sprite.draw(batch);
+		swirl.render(batch);
 		
 	}
 

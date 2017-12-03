@@ -2,6 +2,7 @@ package com.gurbx.ld40.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -48,6 +49,7 @@ public class PlayScreen extends GameScreen {
 		player.setCrystalHandler(world.getCrystalHandler());
 		ui = new UI(app, inventory, world, generalAtlas, player);
 		inventory.addObserver(lights);
+		inventory.addObserver(ui);
 		app.camera.position.x = 1600;
 		app.camera.position.y = 1600;
 
@@ -97,6 +99,7 @@ public class PlayScreen extends GameScreen {
 		app.batch.setProjectionMatrix(app.uiCamera.combined);
 		app.batch.begin();
 		ui.render(app.batch);
+		app.renderMousePointer(delta);
 		app.batch.end();
 	}
 	

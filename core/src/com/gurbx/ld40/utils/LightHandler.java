@@ -97,9 +97,10 @@ public class LightHandler implements GameObject, InventoryObserver  {
 			float length = LIGHT_LENGHT - crystals * 40;
 			if (length <= 50)length = 50; 
 			playerLight.setDistance(length);
-			coneLight.setDistance(length*2);
+			coneLight.setDistance(length*2 + crystals*40);
 		} else {
 			playerLight.setDistance(LIGHT_LENGHT);
+			coneLight.setDistance(LIGHT_LENGHT*2);
 		}
 		
 	}

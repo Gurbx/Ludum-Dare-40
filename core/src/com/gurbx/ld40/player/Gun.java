@@ -7,6 +7,8 @@ import com.gurbx.ld40.inventory.InventoryObserver;
 import com.gurbx.ld40.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld40.utils.particles.ParticleEffectType;
 import com.gurbx.ld40.utils.porjectiles.Projectile;
+import com.gurbx.ld40.utils.sound.SoundHandler;
+import com.gurbx.ld40.utils.sound.Sounds;
 
 import box2dLight.RayHandler;
 
@@ -59,6 +61,7 @@ public class Gun implements InventoryObserver {
 			canShoot = false;
 			Application.shakeScreen(4, 2, false);
 			ParticleEffectHandler.addParticleEffect(ParticleEffectType.SHOOT, playerPosition.x+offsetX, playerPosition.y + offsetY);
+			SoundHandler.playSound(Sounds.LASER);
 		}
 	}
 

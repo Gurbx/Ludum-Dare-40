@@ -2,12 +2,15 @@ package com.gurbx.ld40.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.gurbx.ld40.Application;
 import com.gurbx.ld40.utils.GameScreen;
+import com.gurbx.ld40.utils.sound.SoundHandler;
+import com.gurbx.ld40.utils.sound.Sounds;
 
 public class LoadingScreen extends GameScreen {
 
@@ -18,10 +21,16 @@ public class LoadingScreen extends GameScreen {
 	@Override
 	public void show() {
 		loadGeneralAssets();
-//		loadSounds();
+		loadSounds();
 		
 	}
 	
+	private void loadSounds() {
+		for (Sounds soundType : Sounds.values()) {
+			 app.assets.load(soundType.getPath(), Sound.class);
+		}
+	}
+
 	private void loadGeneralAssets() {
 		app.assets.load("img/generalPack.atlas", TextureAtlas.class);
 		
@@ -30,7 +39,8 @@ public class LoadingScreen extends GameScreen {
 	private void update(float delta) {
 		app.assets.update();
 		if (app.assets.getProgress() >= 1) {
-			app.setScreen(app.playScreen);
+			SoundHandler.initSounds(app);
+			app.setScreen(app.menuScreen);
 		}
 	}
 	

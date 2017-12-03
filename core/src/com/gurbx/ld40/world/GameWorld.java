@@ -26,6 +26,7 @@ public class GameWorld implements GameObject {
 	private RayHandler rayHandler;
 	private LightHandler lights;
 	private Player player;
+	private boolean playerOutOfBoundaries;
 	
 	public GameWorld(TextureAtlas atlas, Inventory inventory, Player player, EnemyHandler enemies, RayHandler rayHandler, LightHandler lights) {
 		this.atlas = atlas;
@@ -36,6 +37,7 @@ public class GameWorld implements GameObject {
 		inventory.addObserver(crystalHandler);
 		storage = new Storage(50, 50, atlas, player, inventory, this, rayHandler);
 		this.enemies = enemies;
+		playerOutOfBoundaries = false;
 		
 		enemySpawner = new EnemySpawner(enemies, this, player);
 		inventory.addObserver(enemySpawner);
@@ -59,13 +61,14 @@ public class GameWorld implements GameObject {
 	}
 
 	private void handleBoundaries(float delta) {
-		if (player.getPosition().x <= 0 || player.getPosition().y >= WIDTH ||
+		if (player.getPosition().x <= 0 || player.getPosition().x >= WIDTH ||
 				player.getPosition().y <= 0 || player.getPosition().y >= HEIGHT) {
 			lights.isOutOfBoundaries(true);
+			playerOutOfBoundaries = true;
 		} else {
 			lights.isOutOfBoundaries(false);
+			playerOutOfBoundaries = false;
 		}
-		
 	}
 
 	@Override
@@ -99,6 +102,10 @@ public class GameWorld implements GameObject {
 	
 	public Storage getStorage() {
 		return storage;
+	}
+
+	public boolean playerIsOutOfBoundaries() {
+		return playerOutOfBoundaries;
 	}
 
 }

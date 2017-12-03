@@ -19,6 +19,8 @@ import com.gurbx.ld40.utils.ScreenShaker;
 import com.gurbx.ld40.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld40.utils.particles.ParticleEffectType;
 import com.gurbx.ld40.utils.porjectiles.Projectile;
+import com.gurbx.ld40.utils.sound.SoundHandler;
+import com.gurbx.ld40.utils.sound.Sounds;
 import com.gurbx.ld40.world.Crystal;
 import com.gurbx.ld40.world.CrystalHandler;
 
@@ -174,6 +176,7 @@ public class Player implements GameObject {
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			crystal.collect();
 			inventory.addCrystalToPlayer();
+			SoundHandler.playSound(Sounds.PICKUP);
 		}
 	}
 
@@ -261,6 +264,7 @@ public class Player implements GameObject {
 	}
 	
 	public void damage(int damage) {
+		SoundHandler.playSound(Sounds.HURT);
 		this.health -= damage;
 		ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
 		Application.shakeScreen(6, 6, true);

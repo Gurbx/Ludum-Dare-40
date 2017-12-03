@@ -13,6 +13,8 @@ import com.gurbx.ld40.utils.GameObject;
 import com.gurbx.ld40.utils.ScreenShaker;
 import com.gurbx.ld40.utils.particles.ParticleEffectHandler;
 import com.gurbx.ld40.utils.particles.ParticleEffectType;
+import com.gurbx.ld40.utils.sound.SoundHandler;
+import com.gurbx.ld40.utils.sound.Sounds;
 
 public class Enemy implements GameObject {
 	private Vector2 position;
@@ -119,15 +121,16 @@ public class Enemy implements GameObject {
 	public void damaga(int damage) {
 		this.health -= damage;
 		if (health <= 0) {
+			health = 0;
 			shouldRemove = true;
 			Application.shakeScreen(10, 10, true);
 			ParticleEffectHandler.addParticleEffect(ParticleEffectType.HIT, position.x, position.y);
 			ParticleEffectHandler.addParticleEffect(ParticleEffectType.BLOOD_GROUND, position.x, position.y);
+			SoundHandler.playSound(Sounds.HURT2);
 		} else {
 			Application.shakeScreen(5, 4, false);
+			SoundHandler.playSound(Sounds.HIT);
 		}
-		
-		System.out.println(health);
 	}
 	
 	public float getX() {
